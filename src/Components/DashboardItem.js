@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
 
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
+import { 
+    CardActions, Paper, Button, CardContent, Card, Grid, Typography 
+} from '@material-ui/core';
 
 class DashboardItem extends Component {
     render() {
@@ -13,8 +11,16 @@ class DashboardItem extends Component {
                 <Card>
                     <CardContent>
                         <Typography type="title" align="center">{this.props.title}</Typography>
-                        <Typography variant="headline" align="center" component="h2">{this.props.metric}</Typography>
+                        <Typography variant="headline" align="center" component="h2">{this.props.running + this.props.stopped}</Typography>
                     </CardContent>
+                    <CardActions>
+                        <Button variant="contained" color="primary">
+                            Running {this.props.running}
+                        </Button>
+                        <Button variant="contained" color="secondary">
+                            Stopped {this.props.stopped}
+                         </Button> 
+                    </CardActions>
                 </Card>
             </Grid>
         );
