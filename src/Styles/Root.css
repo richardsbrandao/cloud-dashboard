@@ -1,0 +1,5 @@
+.menu-link, .menu-link:active, .menu-link:hover, .menu-link:visited {
+    text-decoration: none;
+    color: blue;
+    width: 100%;
+}
