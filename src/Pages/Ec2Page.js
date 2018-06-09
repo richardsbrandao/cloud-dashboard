@@ -13,10 +13,25 @@ import { credentials } from '../Config'
 
 class Ec2Page extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            instances: [],
+            dashboard: [],
+            filter: 'Type'
+        }
+    }
+
     componentWillMount() {
         const instances = new Ec2Service(credentials).getInstances();
-        const dashboard = new ReportService(instances).by('Type');
+        const dashboard = new ReportService(instances).by(this.state.filter);
         this.setState({instances, dashboard});
+    }
+
+    changeFilter(e) {
+        const filter = e.target.value;
+        const dashboard = new ReportService(this.state.instances).by(filter);
+        this.setState({ filter, dashboard });
     }
 
     render() {
@@ -29,9 +44,15 @@ class Ec2Page extends Component {
                     <FormLabel component="legend">Filter Type</FormLabel>
                     
                     <FormGroup row>
-                        <FormControlLabel value="Type" control={<Radio />} label="Instance Type" />
-                        <FormControlLabel value="SubnetId" control={<Radio />} label="Subnet" />
-                        <FormControlLabel value="VpcId" control={<Radio />} label="Vpc" />
+                        <FormControlLabel label="Instance Type"
+                                          control={<Radio value="Type" onChange={this.changeFilter.bind(this)} checked={this.state.filter === 'Type'} />}
+                        />
+                        <FormControlLabel label="Subnet"
+                                          control={<Radio value="SubnetId" onChange={this.changeFilter.bind(this)} checked={this.state.filter === 'SubnetId'} />} 
+                        />
+                        <FormControlLabel label="Vpc"
+                                          control={<Radio value="VpcId" onChange={this.changeFilter.bind(this)} checked={this.state.filter === 'VpcId'} />}  
+                        />
                     </FormGroup>
                 </FormControl>
                 

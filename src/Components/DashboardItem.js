@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 import { 
-    CardActions, Paper, Button, CardContent, Card, Grid, Typography 
+    CardActions, Button, CardContent, Card, Grid, Typography 
 } from '@material-ui/core';
 
 class DashboardItem extends Component {
