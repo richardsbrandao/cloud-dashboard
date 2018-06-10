@@ -1,18 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom'
+import registerServiceWorker from './registerServiceWorker';
 
 import App from './App';
 
-import MuiThemeProvider from '@material-ui/core/es/styles/MuiThemeProvider'
-import registerServiceWorker from './registerServiceWorker';
+import { Provider } from 'react-redux';
+import { configureStore } from './Store'
+
+const initialState = {
+    Ec2Reducer: {
+        instances: [],
+        dashboard: [],
+        filter: 'Type'
+    }
+};
+
+const store = configureStore(initialState);
 
 ReactDOM.render(
-    <BrowserRouter>
-        <MuiThemeProvider>
-            <App />
-        </MuiThemeProvider>
-    </BrowserRouter>, 
+    <Provider store={store}>
+        <App />
+    </Provider>,
     document.getElementById('root')
 );
 registerServiceWorker();

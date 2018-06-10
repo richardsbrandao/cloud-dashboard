@@ -1,37 +1,22 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Actions } from '../Config/constants';
 
-import DashboardItem from '../Components/DashboardItem'
+import DashboardItem from '../Components/DashboardItem';
 
 import {
     Typography, Grid, Radio, FormGroup, Tabs, Tab,
     FormLabel, FormControl, FormControlLabel
-} from '@material-ui/core'
-
-import Ec2Service from '../Services/Ec2Service';
-import ReportService from '../Services/ReportService';
-import { credentials } from '../Config'
+} from '@material-ui/core';
 
 class Ec2Page extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            instances: [],
-            dashboard: [],
-            filter: 'Type'
-        }
-    }
-
     componentWillMount() {
-        const instances = new Ec2Service(credentials).getInstances();
-        const dashboard = new ReportService(instances).by(this.state.filter);
-        this.setState({instances, dashboard});
+        this.props.dashboardInstances(this.props.filter);
     }
 
     changeFilter(e) {
-        const filter = e.target.value;
-        const dashboard = new ReportService(this.state.instances).by(filter);
-        this.setState({ filter, dashboard });
+        this.props.changeDashboardByFilter(e.target.value, this.props.instances);
     }
 
     render() {
@@ -45,13 +30,13 @@ class Ec2Page extends Component {
                     
                     <FormGroup row>
                         <FormControlLabel label="Instance Type"
-                                          control={<Radio value="Type" onChange={this.changeFilter.bind(this)} checked={this.state.filter === 'Type'} />}
+                                          control={<Radio value="Type" onChange={this.changeFilter.bind(this)} checked={this.props.filter === 'Type'} />}
                         />
                         <FormControlLabel label="Subnet"
-                                          control={<Radio value="SubnetId" onChange={this.changeFilter.bind(this)} checked={this.state.filter === 'SubnetId'} />} 
+                                          control={<Radio value="SubnetId" onChange={this.changeFilter.bind(this)} checked={this.props.filter === 'SubnetId'} />} 
                         />
                         <FormControlLabel label="Vpc"
-                                          control={<Radio value="VpcId" onChange={this.changeFilter.bind(this)} checked={this.state.filter === 'VpcId'} />}  
+                                          control={<Radio value="VpcId" onChange={this.changeFilter.bind(this)} checked={this.props.filter === 'VpcId'} />}  
                         />
                     </FormGroup>
                 </FormControl>
@@ -72,9 +57,9 @@ class Ec2Page extends Component {
     }
 
     _total() {
-        return Object.keys(this.state.dashboard).map((keyField) => {
-            const running = this.state.dashboard[keyField].Running;
-            const stopped = this.state.dashboard[keyField].Stopped;
+        return Object.keys(this.props.dashboard).map((keyField) => {
+            const running = this.props.dashboard[keyField].Running;
+            const stopped = this.props.dashboard[keyField].Stopped;
             return {running, stopped};
         }).reduce((total, current) => {
             total.running += current.running;
@@ -84,12 +69,25 @@ class Ec2Page extends Component {
     }
 
     _dashboardItems() {
-        return Object.keys(this.state.dashboard).map((keyField) => {
-            const running = this.state.dashboard[keyField].Running;
-            const stopped = this.state.dashboard[keyField].Stopped;
+        return Object.keys(this.props.dashboard).map((keyField) => {
+            const running = this.props.dashboard[keyField].Running;
+            const stopped = this.props.dashboard[keyField].Stopped;
             return <DashboardItem title={keyField} running={running} stopped={stopped}  />        
         });
     }
 }
 
-export default Ec2Page;
+const mapStateToProps = state => { return {instances: state.Ec2Reducer.instances, dashboard: state.Ec2Reducer.dashboard, filter: state.Ec2Reducer.filter}  }
+const mapDispatchToProps = dispatch => {
+    return {
+        dashboardInstances: () => dispatch({
+            type: Actions.DASHBOARD_INSTANCE
+        }),
+        changeDashboardByFilter: (by, instances) => dispatch({
+            type: Actions.CHANGE_DASHBOARD_INSTANCE,
+            by,
+            instances
+        })
+    }
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Ec2Page);
