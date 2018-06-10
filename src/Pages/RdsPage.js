@@ -8,7 +8,7 @@ import {
 class RdsPage extends Component {
     render() {
         return (
-            <div>
+            <section>
                 <Typography variant="headline" component="h1">RDS Page</Typography>
 
                 <FormControl component="fieldset" required>
@@ -26,7 +26,7 @@ class RdsPage extends Component {
                 <Grid container spacing={16}>
                 
                 </Grid>
-            </div>
+            </section>
         );
     }
 }

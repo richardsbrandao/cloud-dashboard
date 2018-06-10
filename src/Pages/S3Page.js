@@ -5,9 +5,9 @@ import Typography from '@material-ui/core/Typography';
 class S3Page extends Component {
     render() {
         return (
-            <div>
+            <section>
                 <Typography variant="headline" component="h3">S3 Page</Typography>
-            </div>
+            </section>
         );
     }
 }

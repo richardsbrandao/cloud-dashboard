@@ -5,9 +5,9 @@ import Typography from '@material-ui/core/Typography';
 class ElasticachePage extends Component {
     render() {
         return (
-            <div>
+            <section>
                 <Typography variant="headline" component="h3">Elasticache Page</Typography>
-            </div>
+            </section>
         );
     }
 }
