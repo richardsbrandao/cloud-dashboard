@@ -1,4 +1,5 @@
 import { flatten } from 'lodash/array';
+import { ec2 } from '../Config/aws';
 
 class Ec2InstancesService {
     constructor(credentials) {
@@ -6,71 +7,30 @@ class Ec2InstancesService {
     }
 
     getInstances() {
-        return flatten([ [ { Type: 't2.nano',
-            SubnetId: 'subnet-e89081b5',
-            VpcId: 'vpc-9f8e52f8',
-            Tags: [Array],
-            State: 'running' } ],
-        [ { Type: 't2.large',
-            SubnetId: 'subnet-e79c8fc8',
-            VpcId: 'vpc-9f8e52f8',
-            Tags: [Array],
-            State: 'running' },
-          { Type: 't2.large',
-            SubnetId: 'subnet-e79c8fc8',
-            VpcId: 'vpc-9f8e52f8',
-            Tags: [Array],
-            State: 'running' } ],
-        [ { Type: 'm4.large',
-            SubnetId: 'subnet-2a98eb77',
-            VpcId: 'vpc-9f8e52f8',
-            Tags: [Array],
-            State: 'stopped' } ],
-        [ { Type: 't2.large',
-            SubnetId: 'subnet-e79c8fc8',
-            VpcId: 'vpc-9f8e52f8',
-            Tags: [Array],
-            State: 'running' } ],
-        [ { Type: 't2.nano',
-            SubnetId: 'subnet-e79c8fc8',
-            VpcId: 'vpc-9f8e52f8',
-            Tags: [Array],
-            State: 'running' },
-          { Type: 't2.nano',
-            SubnetId: 'subnet-e79c8fc8',
-            VpcId: 'vpc-9f8e52f8',
-            Tags: [Array],
-            State: 'running' } ],
-        [ { Type: 't2.nano',
-            SubnetId: 'subnet-e79c8fc8',
-            VpcId: 'vpc-9f8e52f8',
-            Tags: [Array],
-            State: 'running' },
-          { Type: 't2.nano',
-            SubnetId: 'subnet-e79c8fc8',
-            VpcId: 'vpc-9f8e52f8',
-            Tags: [Array],
-            State: 'running' } ],
-        [ { Type: 't2.nano',
-            SubnetId: 'subnet-ada0d3f0',
-            VpcId: 'vpc-9f8e52f8',
-            Tags: [Array],
-            State: 'running' } ],
-        [ { Type: 't2.large',
-            SubnetId: 'subnet-e89081b5',
-            VpcId: 'vpc-9f8e52f8',
-            Tags: [Array],
-            State: 'running' } ],
-        [ { Type: 't2.large',
-            SubnetId: 'subnet-e89081b5',
-            VpcId: 'vpc-9f8e52f8',
-            Tags: [Array],
-            State: 'running' } ],
-        [ { Type: 't2.nano',
-            SubnetId: 'subnet-e89081b5',
-            VpcId: 'vpc-9f8e52f8',
-            Tags: [Array],
-            State: 'running' } ] ])
+        const request = ec2.describeInstances();
+        return request.promise().then(
+            this._handleSuccess,
+            this._handleError
+        );
+    }
+
+    _handleSuccess(data) {
+        return flatten(data['Reservations'].map((reservation) => {
+                    return reservation['Instances'].map((instance) => {
+                        return {
+                            Type: instance.InstanceType,
+                            SubnetId: instance.SubnetId,
+                            VpcId: instance.VpcId,
+                            Tags: instance.Tags,
+                            State: instance.State.Name,
+                        }
+                    })
+                })
+            );
+    }
+
+    _handleError(error) {
+        return error;
     }
 }
 
