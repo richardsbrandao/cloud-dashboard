@@ -1,7 +1,10 @@
 const Actions = {
     EC2_DASHBOARD: 'EC2_DASHBOARD',
     EC2_LOADING: 'EC2_LOADING',
-    EC2_ERROR: 'EC2_ERROR'
+    EC2_ERROR: 'EC2_ERROR',
+    RDS_DASHBOARD: 'RDS_DASHBOARD',
+    RDS_LOADING: 'RDS_LOADING',
+    RDS_ERROR: 'RDS_ERROR'
 }
 
 export { Actions }

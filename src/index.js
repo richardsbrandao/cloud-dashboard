@@ -12,6 +12,11 @@ const initialState = {
         instances: [],
         dashboard: {},
         filter: 'Type'
+    },
+    RdsReducer: {
+        instances: [],
+        dashboard: {},
+        filter: 'DBInstanceClass'
     }
 };
 

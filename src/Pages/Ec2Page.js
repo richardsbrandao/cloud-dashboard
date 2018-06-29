@@ -45,7 +45,13 @@ class Ec2Page extends Component {
 
 }
 
-const mapStateToProps = state => { return {loading: state.Ec2Reducer.loading, dashboard: state.Ec2Reducer.dashboard, filter: state.Ec2Reducer.filter}  }
+const mapStateToProps = state => { 
+    return {
+        loading: state.Ec2Reducer.loading, 
+        dashboard: state.Ec2Reducer.dashboard, 
+        filter: state.Ec2Reducer.filter
+    }  
+}
 const mapDispatchToProps = dispatch => {
     return {
         fetchEc2Dashboard: (filter) => dispatch(fetchEc2Dashboard(filter))
