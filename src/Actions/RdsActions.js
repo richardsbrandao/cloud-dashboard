@@ -13,12 +13,12 @@ function rdsFetchDataMode(loading) {
     }
 }
 
-function rdsFetchDataError(error) {
-    return {
-        type: Actions.RDS_ERROR,
-        error
-    }
-}
+// function rdsFetchDataError(error) {
+//     return {
+//         type: Actions.RDS_ERROR,
+//         error
+//     }
+// }
 
 function rdsFetchDataSuccess(dashboard, by) {
     return {

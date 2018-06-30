@@ -28,7 +28,6 @@ class RdsPage extends Component {
     }
 
     render() {
-        console.log(this.props.dashboard)
         let content = <Loading />
         if( !this.props.loading ) {
             content = <DashboardReport items={this.props.dashboard} keyField={this.props.filter} />

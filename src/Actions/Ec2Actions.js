@@ -13,12 +13,12 @@ function ec2FetchDataMode(loading) {
     }
 }
 
-function ec2FetchDataError(error) {
-    return {
-        type: Actions.EC2_ERROR,
-        error
-    }
-}
+// function ec2FetchDataError(error) {
+//     return {
+//         type: Actions.EC2_ERROR,
+//         error
+//     }
+// }
 
 function ec2FetchDataSuccess(dashboard, by) {
     return {

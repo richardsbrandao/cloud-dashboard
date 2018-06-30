@@ -17,6 +17,11 @@ const initialState = {
         instances: [],
         dashboard: {},
         filter: 'DBInstanceClass'
+    },
+    EcacheReducer: {
+        instances: [],
+        dashboard: {},
+        filter: 'Engine'
     }
 };
 
