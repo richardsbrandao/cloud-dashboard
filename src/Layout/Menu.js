@@ -13,8 +13,7 @@ class Menu extends Component {
                 {pathname: '/', label: 'dashboard'},
                 {pathname: '/ec2', label: 'ec2'},
                 {pathname: '/rds', label: 'rds'},
-                {pathname: '/elasticache', label: 'elasticache'},
-                {pathname: '/s3', label: 's3'},
+                {pathname: '/elasticache', label: 'elasticache'}
             ],
             pathname: window.location.pathname
         }

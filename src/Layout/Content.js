@@ -6,7 +6,6 @@ import DashboardPage from '../Pages/DashboardPage';
 import Ec2Page from '../Pages/Ec2Page';
 import RdsPage from '../Pages/RdsPage';
 import ElasticachePage from '../Pages/ElasticachePage';
-import S3Page from '../Pages/S3Page';
 
 class Content extends Component {
     render() {
@@ -17,7 +16,6 @@ class Content extends Component {
                     <Route path="/ec2" exact component={Ec2Page} />
                     <Route path="/rds" exact component={RdsPage} />
                     <Route path="/elasticache" exact component={ElasticachePage} />
-                    <Route path="/s3" exact component={S3Page} />
                 </Switch>
             </section>
         );
