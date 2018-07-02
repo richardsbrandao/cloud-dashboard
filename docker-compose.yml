@@ -1,0 +1,21 @@
+version: "3"
+services:
+  dashboard:
+    image: aws-dashboard
+    ports:
+      - 3000:3000
+  cron:
+    image: aws-dashboard
+    command: npm run start-cron
+    restart: always
+    environment:
+      - MONGO_HOST=mongo
+      - MONGO_PORT=27017
+      - REACT_APP_AWS_DEFAULT_REGION=
+      - REACT_APP_AWS_ACCESS_KEY_ID=
+      - REACT_APP_AWS_SECRET_ACCESS_KEY=
+      - REACT_APP_PROVIDER=aws
+  mongo:
+    image: mongo
+    ports:
+      - 27017:27017
