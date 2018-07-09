@@ -1,10 +1,7 @@
 import { Actions } from '../Config/constants'
-import { credentials } from '../Config';
-
-import RdsService from '../Services/RdsService';
+import { api } from '../Config';
+import 'whatwg-fetch'
 import ReportService from '../Services/ReportService';
-
-const rdsService = new RdsService(credentials)
 
 function rdsFetchDataMode(loading) {
     return {
@@ -32,12 +29,15 @@ function fetchRdsDashboard(by) {
     return (dispatch) => {
         dispatch(rdsFetchDataMode(true));
         
-        rdsService.getInstances()
-            .then((instances) => {
-                dispatch(rdsFetchDataMode(false))
-                return new ReportService(instances).by(by); 
+        fetch(`${api.endpoint}/rds`)
+            .then(response => {
+                dispatch(rdsFetchDataMode(false));
+                return response.json();
             })
-            .then((dashboard) => dispatch(rdsFetchDataSuccess(dashboard, by)))
+            .then(json => {
+                return new ReportService(json).by(by); 
+            })
+            .then(dashboard => dispatch(rdsFetchDataSuccess(dashboard, by)));
     }
 }
 

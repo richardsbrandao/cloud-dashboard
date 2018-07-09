@@ -1,6 +1,6 @@
 import { elastiCache } from '../Config/aws';
 
-class EcacheService {
+class ElasticacheService {
     constructor(credentials) {
         this.credentials = credentials;
     }
@@ -25,4 +25,4 @@ class EcacheService {
     
 }
 
-export default EcacheService;
+export default ElasticacheService;

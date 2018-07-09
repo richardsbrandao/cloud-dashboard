@@ -1,10 +1,7 @@
 import { Actions } from '../Config/constants'
-import { credentials } from '../Config';
-
-import Ec2Service from '../Services/Ec2Service';
+import { api } from '../Config';
+import 'whatwg-fetch'
 import ReportService from '../Services/ReportService';
-
-const ec2Service = new Ec2Service(credentials)
 
 function ec2FetchDataMode(loading) {
     return {
@@ -32,12 +29,15 @@ function fetchEc2Dashboard(by) {
     return (dispatch) => {
         dispatch(ec2FetchDataMode(true));
 
-        ec2Service.getInstances()
-            .then((instances) => {
+        fetch(`${api.endpoint}/ec2`)
+            .then(response => {
                 dispatch(ec2FetchDataMode(false));
-                return new ReportService(instances).by(by); 
+                return response.json();
             })
-            .then((dashboard) => dispatch(ec2FetchDataSuccess(dashboard, by)))
+            .then(json => {
+                return new ReportService(json).by(by); 
+            })
+            .then(dashboard => dispatch(ec2FetchDataSuccess(dashboard, by)));
     }
 }
 

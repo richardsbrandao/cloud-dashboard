@@ -1,21 +1,47 @@
 version: "3"
 services:
   dashboard:
-    image: aws-dashboard
+    image: aws-dashboard-dashboard
     ports:
       - 3000:3000
+    environment:
+      - REACT_APP_API_SERVICE=http://localhost:3001/api/v1/cloud-dashboard
+    depends_on:
+      - api      
   cron:
-    image: aws-dashboard
-    command: npm run start-cron
+    image: aws-dashboard-service
+    command: node Jobs/Cron.js
     restart: always
     environment:
-      - MONGO_HOST=mongo
-      - MONGO_PORT=27017
-      - REACT_APP_AWS_DEFAULT_REGION=
-      - REACT_APP_AWS_ACCESS_KEY_ID=
-      - REACT_APP_AWS_SECRET_ACCESS_KEY=
-      - REACT_APP_PROVIDER=aws
-  mongo:
-    image: mongo
+      - DATABASE_HOST=postgres
+      - DATABASE_PORT=5432
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=aq1sw2
+      - DATABASE_DATABASE=dashboard
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
+    depends_on:
+      - api
+  api: 
+    image: aws-dashboard-service
+    restart: always
+    environment:
+      - DATABASE_HOST=postgres
+      - DATABASE_PORT=5432
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=aq1sw2
+      - DATABASE_DATABASE=dashboard
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
+    depends_on:
+      - postgres 
+    ports: 
+      - 3001:3001
+  postgres:
+    image: postgres:10.4
+    environment:
+      - POSTGRES_PASSWORD=aq1sw2
     ports:
-      - 27017:27017
+      - 5432:5432

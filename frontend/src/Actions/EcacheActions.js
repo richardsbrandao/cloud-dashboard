@@ -1,10 +1,7 @@
 import { Actions } from '../Config/constants'
-import { credentials } from '../Config';
-
-import EcacheService from '../Services/EcacheService';
+import { api } from '../Config';
+import 'whatwg-fetch'
 import ReportService from '../Services/ReportService';
-
-const ecacheService = new EcacheService(credentials)
 
 function ecacheFetchDataMode(loading) {
     return {
@@ -32,16 +29,15 @@ function fetchEcacheDashboard(by) {
     return (dispatch) => {
         dispatch(ecacheFetchDataMode(true));
 
-        // dispatch(ecacheFetchDataMode(false));
-        // const instances = ecacheService.getInstances();
-        // const result = new ReportService(instances).by(by);
-        // return result;
-        ecacheService.getInstances()
-            .then((instances) => {
+        fetch(`${api.endpoint}/elasticache`)
+            .then(response => {
                 dispatch(ecacheFetchDataMode(false));
-                return new ReportService(instances).by(by); 
+                return response.json();
             })
-            .then((dashboard) => dispatch(ecacheFetchDataSuccess(dashboard, by)))
+            .then(json => {
+                return new ReportService(json).by(by); 
+            })
+            .then(dashboard => dispatch(ecacheFetchDataSuccess(dashboard, by)));
     }
 }
 
