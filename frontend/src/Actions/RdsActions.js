@@ -25,11 +25,11 @@ function rdsFetchDataSuccess(dashboard, by) {
     }
 }
 
-function fetchRdsDashboard(by) {
+function fetchRdsDashboard(by, params) {
     return (dispatch) => {
         dispatch(rdsFetchDataMode(true));
         
-        fetch(`${api.endpoint}/rds`)
+        fetch(`${api.endpoint}/rds${query(params)}`)
             .then(response => {
                 dispatch(rdsFetchDataMode(false));
                 return response.json();
@@ -39,6 +39,10 @@ function fetchRdsDashboard(by) {
             })
             .then(dashboard => dispatch(rdsFetchDataSuccess(dashboard, by)));
     }
+}
+
+function query(params) {
+    return params ? `?startDate=${params['startDate']}&endDate${params['endDate']}` : '';
 }
 
 export { fetchRdsDashboard };

@@ -25,11 +25,11 @@ function ecacheFetchDataSuccess(dashboard, by) {
     }
 }
 
-function fetchEcacheDashboard(by) {
+function fetchEcacheDashboard(by, params) {
     return (dispatch) => {
         dispatch(ecacheFetchDataMode(true));
 
-        fetch(`${api.endpoint}/elasticache`)
+        fetch(`${api.endpoint}/elasticache${query(params)}`)
             .then(response => {
                 dispatch(ecacheFetchDataMode(false));
                 return response.json();
@@ -39,6 +39,10 @@ function fetchEcacheDashboard(by) {
             })
             .then(dashboard => dispatch(ecacheFetchDataSuccess(dashboard, by)));
     }
+}
+
+function query(params) {
+    return params ? `?startDate=${params['startDate']}&endDate${params['endDate']}` : '';
 }
 
 export { fetchEcacheDashboard };

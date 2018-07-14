@@ -5,6 +5,7 @@ import { fetchEcacheDashboard } from '../Actions/EcacheActions'
 
 import DashboardReport from '../Components/DashboardReport';
 import DashboardFilter from '../Components/DashboardFilter';
+import DateHistory from '../Components/DateHistory';
 import Loading from '../Components/Loading'
 
 import Typography from '@material-ui/core/Typography';
@@ -36,6 +37,8 @@ class ElasticachePage extends Component {
 
         return (
             <section>
+                <DateHistory action={this.props.fetchEcacheDashboard} filter={this.props.filter} />
+                
                 <Typography variant="headline" component="h1">Elasticache</Typography>
                 <DashboardFilter control={this.state.filtersControl} filter={this.props.filter} changeFilter={this.changeFilter.bind(this)} />
 
@@ -55,7 +58,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => { 
     return {
-        fetchEcacheDashboard: (filter) => dispatch(fetchEcacheDashboard(filter)) 
+        fetchEcacheDashboard: (filter, params) => dispatch(fetchEcacheDashboard(filter, params)) 
     }
  }
 

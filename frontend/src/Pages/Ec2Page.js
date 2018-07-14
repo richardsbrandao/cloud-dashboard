@@ -4,8 +4,10 @@ import { fetchEc2Dashboard } from '../Actions/Ec2Actions'
 
 import DashboardReport from '../Components/DashboardReport';
 import DashboardFilter from '../Components/DashboardFilter';
+import DateHistory from '../Components/DateHistory';
 import Loading from '../Components/Loading'
 
+import moment from 'moment'
 import { Typography } from '@material-ui/core';
 
 class Ec2Page extends Component {
@@ -16,7 +18,8 @@ class Ec2Page extends Component {
                 {label: 'Instance Type', value: 'Type'},
                 {label: 'Subnet', value: 'SubnetId'},
                 {label: 'Vpc', value: 'VpcId'}
-            ]
+            ],
+            today: moment().format('YYYY-MM-DD')
         }
     }
 
@@ -35,6 +38,7 @@ class Ec2Page extends Component {
         }
         return (
             <section>
+                <DateHistory action={this.props.fetchEc2Dashboard} filter={this.props.filter} />
                 <Typography variant="headline" component="h1">Ec2 Page</Typography>
                 <DashboardFilter control={this.state.filtersControl} filter={this.props.filter} changeFilter={this.changeFilter.bind(this)} />
 
@@ -54,7 +58,7 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => {
     return {
-        fetchEc2Dashboard: (filter) => dispatch(fetchEc2Dashboard(filter))
+        fetchEc2Dashboard: (filter, params) => dispatch(fetchEc2Dashboard(filter, params))
     }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Ec2Page);

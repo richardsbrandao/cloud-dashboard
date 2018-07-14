@@ -25,11 +25,10 @@ function ec2FetchDataSuccess(dashboard, by) {
     }
 }
 
-function fetchEc2Dashboard(by) {
+function fetchEc2Dashboard(by, params) {
     return (dispatch) => {
         dispatch(ec2FetchDataMode(true));
-
-        fetch(`${api.endpoint}/ec2`)
+        fetch(`${api.endpoint}/ec2${query(params)}`)
             .then(response => {
                 dispatch(ec2FetchDataMode(false));
                 return response.json();
@@ -39,6 +38,10 @@ function fetchEc2Dashboard(by) {
             })
             .then(dashboard => dispatch(ec2FetchDataSuccess(dashboard, by)));
     }
+}
+
+function query(params) {
+    return params ? `?startDate=${params['startDate']}&endDate${params['endDate']}` : '';
 }
 
 export { fetchEc2Dashboard };

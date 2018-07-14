@@ -4,6 +4,7 @@ import { fetchRdsDashboard } from '../Actions/RdsActions'
 
 import DashboardReport from '../Components/DashboardReport';
 import DashboardFilter from '../Components/DashboardFilter';
+import DateHistory from '../Components/DateHistory';
 import Loading from '../Components/Loading'
 
 import { Typography } from '@material-ui/core';
@@ -35,6 +36,7 @@ class RdsPage extends Component {
 
         return (
             <section>
+                <DateHistory action={this.props.fetchRdsDashboard} filter={this.props.filter} />
                 <Typography variant="headline" component="h1">RDS Page</Typography>
                 <DashboardFilter control={this.state.filtersControl} filter={this.props.filter} changeFilter={this.changeFilter.bind(this)} />
 
@@ -54,7 +56,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => { 
     return {
-        fetchRdsDashboard: (filter) => dispatch(fetchRdsDashboard(filter)) 
+        fetchRdsDashboard: (filter, params) => dispatch(fetchRdsDashboard(filter, params)) 
     }
  }
 
