@@ -36,7 +36,7 @@ class DateHistory extends Component {
 
     render() {
         return (
-            <Grid container xs={12} inline>
+            <Grid container inline="true">
                 <Grid item sm={2}>
                     <TextField
                         id="start_date"
@@ -58,12 +58,12 @@ class DateHistory extends Component {
                     />
                 </Grid>
                 <Grid item sm={2}>
-                <FormControl>
-                    <InputLabel>History</InputLabel>
-                    <Select native onChange={this.changeFilter.bind(this)}>
-                        <option value="current">Current</option>
-                        <option value="date">Date</option>
-                    </Select>
+                    <FormControl>
+                        <InputLabel>History</InputLabel>
+                        <Select native onChange={this.changeFilter.bind(this)}>
+                            <option value="current">Current</option>
+                            <option value="date">Date</option>
+                        </Select>
                     </FormControl>
                 </Grid>
                 <Grid item sm={1}>

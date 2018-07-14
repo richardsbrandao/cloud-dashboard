@@ -1,8 +1,14 @@
 import { get } from '../Config/database'
 
 class History {
+    constructor(resource, state, time) {
+        this.resource = resource;
+        this.state = state;
+        this.time = time;
+    }
+
     static findBy(filter) {
-        const sql = `SELECT * FROM history ${filter.toSql()}`
+        const sql = `SELECT * FROM history ${filter.toSql()} ORDER BY time DESC`
         return get().query(sql, filter.toParams());
     }
 

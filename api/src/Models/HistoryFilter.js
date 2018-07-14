@@ -1,3 +1,6 @@
+import moment from 'moment-timezone';
+import config from '../Config/config';
+
 class HistoryFilter {
     //apply validation
     constructor(params) {
@@ -16,8 +19,8 @@ class HistoryFilter {
         const endDate = this.params.endDate.split('-');
         return [
             this.params.resource,
-            new Date(startDate[0], startDate[1]-1, startDate[2], 0, 0, 0),
-            new Date(endDate[0], endDate[1]-1, endDate[2], 0, 0, 0)
+            moment(`${this.params.startDate}T00:00:00Z`).tz(config.cron.timezone).toDate(),
+            moment(`${this.params.endDate}T23:59:59Z`).tz(config.cron.timezone).toDate()
         ]
     }
 }

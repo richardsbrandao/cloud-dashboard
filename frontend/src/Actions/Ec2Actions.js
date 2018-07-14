@@ -28,20 +28,40 @@ function ec2FetchDataSuccess(dashboard, by) {
 function fetchEc2Dashboard(by, params) {
     return (dispatch) => {
         dispatch(ec2FetchDataMode(true));
-        fetch(`${api.endpoint}/ec2${query(params)}`)
+        if(!params) {
+            fetchCurrentEc2Dashboard(dispatch, by);
+        } else {
+            fetchEc2HistoryDashboard(dispatch, by, params);
+        }
+    }
+}
+
+function fetchEc2HistoryDashboard(dispatch, by, params) {
+    fetch(`${api.endpoint}/histories${query(params)}`)
             .then(response => {
                 dispatch(ec2FetchDataMode(false));
                 return response.json();
             })
-            .then(json => {
-                return new ReportService(json).by(by); 
+            .then(histories => {
+                return histories.map(history => new ReportService(JSON.parse(history.state), history.time).by(by)); 
             })
             .then(dashboard => dispatch(ec2FetchDataSuccess(dashboard, by)));
-    }
+}
+
+function fetchCurrentEc2Dashboard(dispatch, by) {
+    fetch(`${api.endpoint}/ec2`)
+            .then(response => {
+                dispatch(ec2FetchDataMode(false));
+                return response.json();
+            })
+            .then(histories => {
+                return histories.map(history => new ReportService(history.state, history.time).by(by)); 
+            })
+            .then(dashboard => dispatch(ec2FetchDataSuccess(dashboard, by)));
 }
 
 function query(params) {
-    return params ? `?startDate=${params['startDate']}&endDate${params['endDate']}` : '';
+    return params ? `?resource=EC2&startDate=${params['startDate']}&endDate=${params['endDate']}` : '';
 }
 
 export { fetchEc2Dashboard };

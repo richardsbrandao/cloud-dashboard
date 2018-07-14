@@ -27,8 +27,8 @@ class Menu extends Component {
         return (
             <MenuList>
                 {
-                    this.state.menu.map((item) => {
-                        return  <MenuItem selected={this.state.pathname === item.pathname}>
+                    this.state.menu.map((item, i) => {
+                        return  <MenuItem key={i} selected={this.state.pathname === item.pathname}>
                                     <Link to={item.pathname} onClick={() => this.updateSelectedMenu(item.pathname)} className="menu-link">{item.label}</Link>
                                 </MenuItem>
                     })

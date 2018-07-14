@@ -1,12 +1,13 @@
 import { capitalize } from 'lodash/string'
 
 class ReportService {
-    constructor(data) {
+    constructor(data, time) {
         this.data = data;
+        this.time = time;
     }
 
     by(field) {
-        return this.data.reduce((report, current) => {
+        const report = this.data.reduce((report, current) => {
             const keyField = current[field];
             if(!report[keyField]) {
                 report[keyField] = {
@@ -18,6 +19,8 @@ class ReportService {
             }
             return report;
         }, {});
+
+        return {report: report, time: this.time};
     }
 }
 

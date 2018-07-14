@@ -9,18 +9,15 @@ import { configureStore } from './Store'
 
 const initialState = {
     Ec2Reducer: {
-        instances: [],
-        dashboard: {},
+        dashboard: [],
         filter: 'Type'
     },
     RdsReducer: {
-        instances: [],
-        dashboard: {},
+        dashboard: [],
         filter: 'DBInstanceClass'
     },
     EcacheReducer: {
-        instances: [],
-        dashboard: {},
+        dashboard: [],
         filter: 'Engine'
     }
 };

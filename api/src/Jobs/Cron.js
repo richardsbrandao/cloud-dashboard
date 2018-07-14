@@ -1,4 +1,4 @@
-import moment from 'moment';
+import moment from 'moment-timezone';
 import config from '../Config/config';
 
 import { CronJob } from 'cron';
@@ -57,16 +57,16 @@ function saveEc2() {
 }
 
 var job = new CronJob({
-  cronTime: '10 * * * * *',
+  cronTime: config.cron.time,
   onTick: function() {
-    console.log('hei')
+    console.log(`Take snapshot at ${moment().tz(config.cron.timezone).format()}`)
     saveEc2();
     saveRds();
     saveEcache();
   },
   start: false,
-  timeZone: 'America/Los_Angeles'
+  timeZone: config.cron.timezone
 });
 
-console.log(`Start cron at ${moment().format()}`)
+console.log(`Start cron at ${moment().tz(config.cron.timezone).format()}`)
 job.start();

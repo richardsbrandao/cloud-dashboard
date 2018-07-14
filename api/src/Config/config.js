@@ -13,6 +13,10 @@ const config = {
             'awsAccessKeyId': process.env.AWS_ACCESS_KEY_ID,
             'awsRegion': process.env.AWS_DEFAULT_REGION,
         },
+        'cron': {
+            'time': process.env.CRON_TIME,
+            'timezone': 'America/Sao_Paulo'
+        },
         'port': 3001,
         'contextRoot': '/api/v1/cloud-dashboard'
     },

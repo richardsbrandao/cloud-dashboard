@@ -5,8 +5,8 @@ class HistoriesController {
     static findAll(request, response) {
         const filter = new HistoryFilter(request.query);
         History.findBy(filter)
-                    .then(data => {
-                        response.status(200).send(data);
+                    .then(histories => {
+                        response.status(200).send(histories);
                     })
                     .catch(error => {
                         response.status(500).send({error});

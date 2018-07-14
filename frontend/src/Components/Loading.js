@@ -16,7 +16,7 @@ class Loading extends Component {
     }
 
     render() {
-        return <Grid align="center" sm={12}>
+        return <Grid item align="center" sm={12}>
                     <CircularProgress
                         color="secondary"
                         variant="determinate"

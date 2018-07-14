@@ -7,5 +7,5 @@ create table history (
     id serial primary key,
     state varchar not null,
     resource varchar not null,
-    time timestamp not null default now()
+    time timestamp with time zone not null default now()
 );

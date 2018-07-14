@@ -21,6 +21,7 @@ services:
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
+      - CRON_TIME=0 0 * * * *
     depends_on:
       - api
   api: 
@@ -43,5 +44,6 @@ services:
     image: postgres:10.4
     environment:
       - POSTGRES_PASSWORD=aq1sw2
+      - TZ=America/Sao_Paulo
     ports:
       - 5432:5432
