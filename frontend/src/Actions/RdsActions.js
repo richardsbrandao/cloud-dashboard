@@ -28,21 +28,40 @@ function rdsFetchDataSuccess(dashboard, by) {
 function fetchRdsDashboard(by, params) {
     return (dispatch) => {
         dispatch(rdsFetchDataMode(true));
-        
-        fetch(`${api.endpoint}/rds${query(params)}`)
+        if(!params) {
+            fetchCurrentRdsDashboard(dispatch, by);
+        } else {
+            fetchRdsHistoryDashboard(dispatch, by, params);
+        }
+    }
+}
+
+function fetchRdsHistoryDashboard(dispatch, by, params) {
+    fetch(`${api.endpoint}/histories${query(params)}`)
             .then(response => {
                 dispatch(rdsFetchDataMode(false));
                 return response.json();
             })
-            .then(json => {
-                return new ReportService(json).by(by); 
+            .then(histories => {
+                return histories.map(history => new ReportService(JSON.parse(history.state), history.time).by(by)); 
             })
             .then(dashboard => dispatch(rdsFetchDataSuccess(dashboard, by)));
-    }
+}
+
+function fetchCurrentRdsDashboard(dispatch, by) {
+    fetch(`${api.endpoint}/rds`)
+            .then(response => {
+                dispatch(rdsFetchDataMode(false));
+                return response.json();
+            })
+            .then(histories => {
+                return histories.map(history => new ReportService(history.state, history.time).by(by)); 
+            })
+            .then(dashboard => dispatch(rdsFetchDataSuccess(dashboard, by)));
 }
 
 function query(params) {
-    return params ? `?startDate=${params['startDate']}&endDate${params['endDate']}` : '';
+    return params ? `?resource=RDS&startDate=${params['startDate']}&endDate=${params['endDate']}` : '';
 }
 
 export { fetchRdsDashboard };
